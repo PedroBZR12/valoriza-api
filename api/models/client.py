@@ -12,15 +12,15 @@ from django.db import models
 #e o método __str__(self) (nome horroroso, jesus) vai devolver a string 
 #nome ao invés do objeto na hora de chamar no debug.
 
-#Tabela "Compania"
-class Company(models.Model):
-  companyName=models.CharField(max_length=127)
-  companyAdress=models.CharField(max_length=255)
-  companyCNPJ=models.CharField(max_length=18, unique=TRUE)
-  companyEmail=models.CharField(max_length=127, unique=TRUE)
-  companyPasswordHash=models.CharField(max_length=255)
-  companyAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+#Tabela "Cliente"
+class Client(models.Model):
+  clientName=models.CharField(max_length=127)
+  clientAdress=models.CharField(max_length=255)
+  clientCPF=models.CharField(max_length=11, unique=TRUE)
+  clientEmail=models.CharField(max_length=127, unique=TRUE)
+  clientPasswordHash=models.CharField(max_length=255)
+  clientAccountCreatedAt=models.DatetimeField(auto_now_add=True)
   class Meta:
-    db_table="company"
+    db_table="client"
   def __str__(self):
-    return self.companyName
+    return self.clientName
