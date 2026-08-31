@@ -8,6 +8,10 @@ from django.db import models
 #Campos de CNH aceitam 9 caracteres
 #Campos de Endereço e de Hash de senha aceitam 255 caracteres
 
+#O método Meta vai definir estritamente o nome da tabela no django
+#e o método __str__(self) (nome horroroso, jesus) vai devolver a string 
+#nome ao invés do objeto na hora de chamar no debug.
+
 #Tabela "Cliente"
 class Client(models.Model):
   clientName=models.CharField(max_length=127)
