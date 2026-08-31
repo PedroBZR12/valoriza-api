@@ -1,4 +1,4 @@
-#Importando a iblioteca de banco de dados django
+#Importando a biblioteca de banco de dados django
 from django.db import models
 
 #Parâmetros de Padronização:
@@ -16,6 +16,10 @@ class Client(models.Model):
   clientEmail=models.CharField(max_length=127, unique=TRUE)
   clientPasswordHash=models.CharField(max_length=255)
   clientAccountCreatedAt=models.DatetimeField(auto_now_add=True)
+  class Meta:
+    db_table="client"
+  def __str__(self):
+    return self.clientName
 
 #Tabela "Compania"
 class Company(models.Model):
@@ -25,6 +29,10 @@ class Company(models.Model):
   companyEmail=models.CharField(max_length=127, unique=TRUE)
   companyPasswordHash=models.CharField(max_length=255)
   companyAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+  class Meta:
+    db_table="company"
+  def __str__(self):
+    return self.companyName
 
 #Tabela "Motorista"
 class Driver(models.Model):
@@ -34,4 +42,8 @@ class Driver(models.Model):
   driverEmail=models.CharField(max_length=127, unique=TRUE)
   driverPasswordHash=models.CharField(max_length=255)
   driverAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+  class Meta:
+    db_table="driver"
+  def __str__(self):
+    return self.driverName
 
