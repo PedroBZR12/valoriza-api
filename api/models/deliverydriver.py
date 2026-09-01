@@ -15,9 +15,9 @@ from django.db import models
 #Tabela "Motorista"
 class Driver(models.Model):
   driverName=models.CharField(max_length=127)
-  driverCPF=models.CharField(max_length=11, unique=TRUE)
-  driverCNH=models.CharField(max_length=9, unique=TRUE)
-  driverEmail=models.CharField(max_length=127, unique=TRUE)
+  driverCPF=models.CharField(max_length=11, unique=True)
+  driverCNH=models.CharField(max_length=9, unique=True)
+  driverEmail=models.CharField(max_length=127, unique=True)
   driverPasswordHash=models.CharField(max_length=255)
   driverAccountCreatedAt=models.DateTimeField(auto_now_add=True)
   class Meta:
