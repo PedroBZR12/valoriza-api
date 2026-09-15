@@ -1,9 +1,9 @@
 #Importando os modelinhos do django
 from django.db import models
-
-#Importando todos as classes de usuários e a classe de dispositivos
-from users.models import Client, Company, Driver
-from devices.models import Device
+from api.models.client import Client
+from api.models.company import Company
+from api.models.deliverydriver import Driver
+from api.models.device import Device
 
 #Estados possíveis da requisição
 class RequestStatus(models.TextChoices):

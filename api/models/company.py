@@ -16,8 +16,8 @@ from django.db import models
 class Company(models.Model):
   companyName=models.CharField(max_length=127)
   companyAdress=models.CharField(max_length=255)
-  companyCNPJ=models.CharField(max_length=18, unique=TRUE)
-  companyEmail=models.CharField(max_length=127, unique=TRUE)
+  companyCNPJ=models.CharField(max_length=18, unique=True)
+  companyEmail=models.CharField(max_length=127, unique=True)
   companyPasswordHash=models.CharField(max_length=255)
   companyAccountCreatedAt=models.DateTimeField(auto_now_add=True)
   class Meta:

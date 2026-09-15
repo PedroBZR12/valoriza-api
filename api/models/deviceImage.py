@@ -1,5 +1,5 @@
 from django.db import models
-
+from api.models.device import Device
 class DeviceImage(models.Model):
     class ImageType(models.TextChoices):
         INITIAL = "initial", "Foto inicial (oferta)"

@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
   web:
     build: .
-    working_dir: /app/api
+    working_dir: /app
     command: python manage.py runserver 0.0.0.0:4323
     volumes:
       - .:/app
@@ -12,16 +10,33 @@ services:
     environment:
       - DEBUG=1
     depends_on:
-      - db
+      db:
+        condition: service_healthy
+    networks:
+      - valoriza-network
 
   db:
-    image: postgres:15-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
+    image: postgres:17
+    restart: unless-stopped
     environment:
-      - POSTGRES_DB=django_db
-      - POSTGRES_USER=django_user
-      - POSTGRES_PASSWORD=django_password
+      POSTGRES_DB: valoriza
+      POSTGRES_USER: valoriza
+      POSTGRES_PASSWORD: valoriza
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U valoriza -d valoriza"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - valoriza-network
+
+networks:
+  valoriza-network:
+    driver: bridge
 
 volumes:
   postgres_data:

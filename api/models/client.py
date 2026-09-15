@@ -16,10 +16,10 @@ from django.db import models
 class Client(models.Model):
   clientName=models.CharField(max_length=127)
   clientAdress=models.CharField(max_length=255)
-  clientCPF=models.CharField(max_length=11, unique=TRUE)
-  clientEmail=models.CharField(max_length=127, unique=TRUE)
+  clientCPF=models.CharField(max_length=11, unique=True)
+  clientEmail=models.CharField(max_length=127, unique=True)
   clientPasswordHash=models.CharField(max_length=255)
-  clientAccountCreatedAt=models.DatetimeField(auto_now_add=True)
+  clientAccountCreatedAt=models.DateTimeField(auto_now_add=True)
   class Meta:
     db_table="client"
   def __str__(self):
