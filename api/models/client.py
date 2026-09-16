@@ -14,12 +14,12 @@ from django.db import models
 
 #Tabela "Cliente"
 class Client(models.Model):
-  clientName=models.CharField(max_length=127)
-  clientAdress=models.CharField(max_length=255)
-  clientCPF=models.CharField(max_length=11, unique=True)
-  clientEmail=models.CharField(max_length=127, unique=True)
-  clientPasswordHash=models.CharField(max_length=255)
-  clientAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+  client_name=models.CharField(max_length=127)
+  client_adress=models.CharField(max_length=255)
+  client_cpf=models.CharField(max_length=11, unique=True)
+  client_email=models.CharField(max_length=127, unique=True)
+  client_password_hash=models.CharField(max_length=255)
+  client_account_created_at=models.DateTimeField(auto_now_add=True)
   class Meta:
     db_table="client"
   def __str__(self):
