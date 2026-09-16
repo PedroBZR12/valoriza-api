@@ -14,12 +14,12 @@ from django.db import models
 
 #Tabela "Compania"
 class Company(models.Model):
-  companyName=models.CharField(max_length=127)
-  companyAdress=models.CharField(max_length=255)
-  companyCNPJ=models.CharField(max_length=18, unique=True)
-  companyEmail=models.CharField(max_length=127, unique=True)
-  companyPasswordHash=models.CharField(max_length=255)
-  companyAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+  company_name=models.CharField(max_length=127)
+  company_adress=models.CharField(max_length=255)
+  company_cnpj=models.CharField(max_length=18, unique=True)
+  company_email=models.CharField(max_length=127, unique=True)
+  company_password_hash=models.CharField(max_length=255)
+  company_account_created_at=models.DateTimeField(auto_now_add=True)
   class Meta:
     db_table="company"
   def __str__(self):
