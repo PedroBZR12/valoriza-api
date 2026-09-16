@@ -23,4 +23,4 @@ class Company(models.Model):
   class Meta:
     db_table="company"
   def __str__(self):
-    return self.companyName
+    return self.company_name
