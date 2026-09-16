@@ -23,4 +23,4 @@ class Driver(models.Model):
   class Meta:
     db_table="driver"
   def __str__(self):
-    return self.driverName
+    return self.driver_name
