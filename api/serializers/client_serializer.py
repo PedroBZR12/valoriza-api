@@ -9,20 +9,20 @@ class ListClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = (
             'id',
-            'clientName',
-            'clientAdress',
-            'clientCPF',
-            'clientEmail',
-            'clientAccountCreatedAt',
+            'client_name',
+            'client_adress',
+            'client_cpf',
+            'client_email',
+            'client_account_created_at',
         )
         read_only_fields = (
             'id',
-            'clientAccountCreatedAt',
+            'client_account_created_at',
         )
 
 
 class ClientSerializer(serializers.ModelSerializer):
-    clientPassword = serializers.CharField(
+    client_password = serializers.CharField(
         write_only=True,
         required=False
     )
@@ -31,26 +31,26 @@ class ClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = (
             'id',
-            'clientName',
-            'clientAdress',
-            'clientCPF',
-            'clientEmail',
-            'clientPassword',
-            'clientAccountCreatedAt',
+            'client_name',
+            'client_adress',
+            'client_cpf',
+            'client_email',
+            'client_password',
+            'client_account_created_at',
         )
         read_only_fields = (
             'id',
-            'clientAccountCreatedAt',
+            'client_account_created_at',
         )
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('clientPassword', None)
+        password = validated_data.pop('client_password', None)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         if password:
-            instance.clientPasswordHash = make_password(password)
+            instance.client_password_hash = make_password(password)
 
         instance.save()
 
@@ -58,7 +58,7 @@ class ClientSerializer(serializers.ModelSerializer):
 
 
 class CreateClientSerializer(serializers.ModelSerializer):
-    clientPassword = serializers.CharField(
+    client_password = serializers.CharField(
         write_only=True,
         required=True
     )
@@ -67,21 +67,21 @@ class CreateClientSerializer(serializers.ModelSerializer):
         model = Client
         fields = (
             'id',
-            'clientName',
-            'clientAdress',
-            'clientCPF',
-            'clientEmail',
-            'clientPassword',
-            'clientAccountCreatedAt',
+            'client_name',
+            'client_adress',
+            'client_cpf',
+            'client_email',
+            'client_password',
+            'client_account_created_at',
         )
         read_only_fields = (
             'id',
-            'clientAccountCreatedAt',
+            'client_account_created_at',
         )
 
     def create(self, validated_data):
-        password = validated_data.pop('clientPassword')
+        password = validated_data.pop('client_password')
 
-        validated_data['clientPasswordHash'] = make_password(password)
+        validated_data['client_password_hash'] = make_password(password)
 
         return Client.objects.create(**validated_data)
