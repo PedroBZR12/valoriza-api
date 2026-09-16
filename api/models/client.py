@@ -23,4 +23,4 @@ class Client(models.Model):
   class Meta:
     db_table="client"
   def __str__(self):
-    return self.clientName
+    return self.client_name
