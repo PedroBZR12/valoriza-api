@@ -22,10 +22,10 @@ class ReturnRequest(models.Model):
     company = models.ForeignKey(Company, on_delete=models.PROTECT, related_name="return_requests")
     driver = models.ForeignKey(Driver, on_delete=models.SET_NULL, null=True, blank=True, related_name="return_requests")
     device = models.OneToOneField(Device, on_delete=models.PROTECT, related_name="return_request")
-    chatId = models.CharField(max_length=100, blank=True, null=True)
-    requestDate = models.DateTimeField(auto_now_add=True)
-    currentStatus = models.CharField(max_length=25,choices=RequestStatus.choices,default=RequestStatus.REQUESTED)
-    updatedAt = models.DateTimeField(auto_now=True)
+    chat_id = models.CharField(max_length=100, blank=True, null=True)
+    request_date = models.DateTimeField(auto_now_add=True)
+    current_status = models.CharField(max_length=25,choices=RequestStatus.choices,default=RequestStatus.REQUESTED)
+    updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         db_table = "return_request"
     def __str__(self):
@@ -35,7 +35,7 @@ class ReturnRequest(models.Model):
 class RequestStatusHistory(models.Model):
     return_request = models.ForeignKey(ReturnRequest, on_delete=models.CASCADE, related_name="status_history")
     status = models.CharField(max_length=25, choices=RequestStatus.choices)
-    changedAt = models.DateTimeField(auto_now_add=True)
+    changed_at = models.DateTimeField(auto_now_add=True)
     notes = models.CharField(max_length=255, blank=True, null=True)
     class Meta:
         db_table = "request_status_history"

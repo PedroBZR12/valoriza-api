@@ -9,20 +9,20 @@ class ListDriverSerializer(serializers.ModelSerializer):
         model = Driver
         fields = (
             'id',
-            'driverName',
-            'driverCPF',
-            'driverCNH',
-            'driverEmail',
-            'driverAccountCreatedAt',
+            'driver_name',
+            'driver_cpf',
+            'driver_cnh',
+            'driver_email',
+            'driver_account_created_at',
         )
         read_only_fields = (
             'id',
-            'driverAccountCreatedAt',
+            'driver_account_created_at',
         )
 
 
 class DriverSerializer(serializers.ModelSerializer):
-    driverPassword = serializers.CharField(
+    driver_password = serializers.CharField(
         write_only=True,
         required=False
     )
@@ -31,26 +31,26 @@ class DriverSerializer(serializers.ModelSerializer):
         model = Driver
         fields = (
             'id',
-            'driverName',
-            'driverCPF',
-            'driverCNH',
-            'driverEmail',
-            'driverPassword',
-            'driverAccountCreatedAt',
+            'driver_name',
+            'driver_cpf',
+            'driver_cnh',
+            'driver_email',
+            'driver_password',
+            'driver_account_created_at',
         )
         read_only_fields = (
             'id',
-            'driverAccountCreatedAt',
+            'driver_account_created_at',
         )
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('driverPassword', None)
+        password = validated_data.pop('driver_password', None)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         if password:
-            instance.driverPasswordHash = make_password(password)
+            instance.driver_password_hash = make_password(password)
 
         instance.save()
 
@@ -58,7 +58,7 @@ class DriverSerializer(serializers.ModelSerializer):
 
 
 class CreateDriverSerializer(serializers.ModelSerializer):
-    driverPassword = serializers.CharField(
+    driver_password = serializers.CharField(
         write_only=True,
         required=True
     )
@@ -67,21 +67,21 @@ class CreateDriverSerializer(serializers.ModelSerializer):
         model = Driver
         fields = (
             'id',
-            'driverName',
-            'driverCPF',
-            'driverCNH',
-            'driverEmail',
-            'driverPassword',
-            'driverAccountCreatedAt',
+            'driver_name',
+            'driver_cpf',
+            'driver_cnh',
+            'driver_email',
+            'driver_password',
+            'driver_account_created_at',
         )
         read_only_fields = (
             'id',
-            'driverAccountCreatedAt',
+            'driver_account_created_at',
         )
 
     def create(self, validated_data):
-        password = validated_data.pop('driverPassword')
+        password = validated_data.pop('driver_password')
 
-        validated_data['driverPasswordHash'] = make_password(password)
+        validated_data['driver_password_hash'] = make_password(password)
 
         return Driver.objects.create(**validated_data)
