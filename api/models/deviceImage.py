@@ -11,4 +11,4 @@ class DeviceImage(models.Model):
     class Meta:
         db_table = "device_image"
     def __str__(self):
-        return f"Imagem #{self.pk} ({self.imageType}) - Device #{self.device_id}"
+        return f"Imagem #{self.pk} ({self.image_type}) - Device #{self.device_id}"
