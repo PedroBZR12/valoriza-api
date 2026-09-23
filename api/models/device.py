@@ -21,6 +21,11 @@ class Device(models.Model):
         ACCEPTED="Aceito"
         REFUSED="Recusado"
 
+    #Isso aqui faz a relação 1:N de clientes e dispositivos (um cliente pode querer ofertar vários dispositivos)
+    client=models.ForeignKey(Client, on_delete=models.CASCADE)
+    #E isso faz a relação 1:N de empresas e dispositivos (uma empresa pode aceitar a oferta de vários dispositivos)
+    current_company=models.ForeignKey(Company, on_delete=models.SET_Null, null=True, blank=True)
+
     class Meta:
         db_table = "device"
 
