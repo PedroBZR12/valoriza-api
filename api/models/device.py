@@ -1,4 +1,6 @@
 from django.db import models
+from api.models.client import Client
+from api.models.company import Company
 
 class Device(models.Model):
     device_category = models.CharField(max_length=45)
