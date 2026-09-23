@@ -34,7 +34,7 @@ class Device(models.Model):
     offered_value=models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  #A empresa faz uma oferta de até R$9.999,99.
     device_category=models.CharField(max_length=5,choices=Category.choices)
     device_condition=models.CharField(max_length=5,choices=Condition.choices)
-    device_status=models.CharField(max_length=10,choices=Status.choices,default=Category.IN_ANALISYS)
+    device_status=models.CharField(max_length=10,choices=Status.choices,default=Status.IN_ANALISYS)
     device_model=models.CharField(max_length=100)
     device_description=models.CharField(max_length=255)
     created_at=models.DateTimeField(auto_now_add=True)
