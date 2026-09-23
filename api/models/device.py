@@ -3,37 +3,39 @@ from api.models.client import Client
 from api.models.company import Company
 
 class Device(models.Model):
-    device_model = models.CharField(max_length=100)
-    device_description = models.CharField(max_length=255)
-    created_at = models.DateTimeField(auto_now_add=True)
-
     #Achei no site do ReciclaSampa categorias de descarte de lixo eletrônico, acho que fica melhor do que ter que fazer o usuário inventar uma categoria da cabeça dele
+    #Categoria do Dispositivo
     class Category(models.TextChoices):
-        GREEN="Computadores, Tablets, Celulares"
-        WHITE="Geladeiras, Micro-ondas, Máquina de Lavar"
-        BROWN="Televisão, Rádio, Câmeras e Caixas de Som"
-        BLUE="Ferramentas Elétricas, Brinquedos eletrônicos"
-        OFF_CATEGORIES="Meu dispositivo não se encaixa nas categorias acima"
+        GREEN="GREEN","Computadores, Tablets, Celulares"
+        WHITE="WHITE","Geladeiras, Micro-ondas, Máquina de Lavar"
+        BROWN="BROWN","Televisão, Rádio, Câmeras e Caixas de Som"
+        BLUE="BLUE","Ferramentas Elétricas, Brinquedos eletrônicos"
+        OFF_CATEGORIES="OTHER","Meu dispositivo não se encaixa nas categorias acima"
     
     #Condição do aparelho
     class Condition(models.TextChoices):
-        NEW="Novo"
-        USED="Usado"
+        NEW="NOVO","Novo"
+        USED="USADO","Usado"
 
     #Status da oferta do dispositivo
     class Status(models.TextChoices):
-        IN_ANALISYS="Em análise"
-        OFFERED="Ofertado"
-        ACCEPTED="Aceito"
-        REFUSED="Recusado"
+        IN_ANALISYS="EM_ANALISE","Em análise"
+        OFFERED="OFERTADO","Ofertado"
+        ACCEPTED="ACEITO","Aceito"
+        REFUSED="RECUSADO","Recusado"
 
-    #O cliente pode colocar um valor de oferta esperado de até R$9.999,99
-    expected_offer=models.DecimalField(max_digits=6, decimal_places=2)
-
-    #Isso aqui faz a relação 1:N de clientes e dispositivos (um cliente pode querer ofertar vários dispositivos)
+    #Relações 1:N entre clientes/empresas e dispositivos
     client=models.ForeignKey(Client, on_delete=models.CASCADE)
-    #E isso faz a relação 1:N de empresas e dispositivos (uma empresa pode aceitar a oferta de vários dispositivos)
     current_company=models.ForeignKey(Company, on_delete=models.SET_Null, null=True, blank=True)
+
+    #Variáveis do dispositivo
+    expected_offer=models.DecimalField(max_digits=6, decimal_places=2) #O cliente pode colocar um valor de oferta esperado de até R$9.999,99
+    device_category=models.CharField(max_lenght=5,choices=Category.choices)
+    device_condition=models.CharField(max_lenght=5,choices=Condition.choices)
+    device_status=models.CharField(max_lenght=10,choices=Status.choices)
+    device_model=models.CharField(max_length=100)
+    device_description=models.CharField(max_length=255)
+    created_at=models.DateTimeField(auto_now_add=True)
 
     class Meta:
         db_table = "device"
