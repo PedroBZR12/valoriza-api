@@ -37,6 +37,7 @@ class Device(models.Model):
     device_model=models.CharField(max_length=100)
     device_description=models.CharField(max_length=255)
     created_at=models.DateTimeField(auto_now_add=True)
+    offered_at=models.DateTimeField(null=True,blank=True)
 
     class Meta:
         db_table = "device"
