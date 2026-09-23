@@ -29,7 +29,8 @@ class Device(models.Model):
     current_company=models.ForeignKey(Company, on_delete=models.SET_Null, null=True, blank=True)
 
     #Variáveis do dispositivo
-    expected_offer=models.DecimalField(max_digits=6, decimal_places=2) #O cliente pode colocar um valor de oferta esperado de até R$9.999,99
+    expected_offer=models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True) #O cliente pode opcionalmente colocar um valor de oferta esperado de até R$9.999,99.
+    offered_value=models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  #A empresa faz uma oferta de até R$9.999,99.
     device_category=models.CharField(max_lenght=5,choices=Category.choices)
     device_condition=models.CharField(max_lenght=5,choices=Condition.choices)
     device_status=models.CharField(max_lenght=10,choices=Status.choices)
