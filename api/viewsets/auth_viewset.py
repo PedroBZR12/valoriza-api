@@ -51,6 +51,7 @@ class AuthViewSet(viewsets.GenericViewSet):
 
     @action(detail=False, methods=['post'], url_path='register')
     def register(self, request):
+        print("foi chamado")
         account_type = request.data.get('account_type')
 
         if not account_type:

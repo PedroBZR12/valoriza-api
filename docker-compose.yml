@@ -7,6 +7,8 @@ services:
       - .:/app
     ports:
       - "4323:4323"
+    env_file:
+      - .env
     environment:
       - DEBUG=1
     depends_on:
