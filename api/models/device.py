@@ -3,12 +3,19 @@ from api.models.client import Client
 from api.models.company import Company
 
 class Device(models.Model):
-    device_category = models.CharField(max_length=45)
     device_model = models.CharField(max_length=100)
     device_description = models.CharField(max_length=255)
     offered_value = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    #Achei no site do ReciclaSampa categorias de descarte de lixo eletrônico, acho que fica melhor do que ter que fazer o usuário inventar uma categoria da cabeça dele
+    class Category(models.TextChoices):
+        GREEN="Computadores, Tablets, Celulares"
+        WHITE="Geladeiras, Micro-ondas, Máquina de Lavar"
+        BROWN="Televisão, Rádio, Câmeras e Caixas de Som"
+        BLUE="Ferramentas Elétricas, Brinquedos eletrônicos"
+        OFF_CATEGORIES="Meu dispositivo não se encaixa nas categorias acima"
+    
     #Condição do aparelho
     class Condition(models.TextChoices):
         NEW="Novo"
