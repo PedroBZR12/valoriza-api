@@ -27,7 +27,7 @@ class Device(models.Model):
 
     #Relações 1:N entre clientes/empresas e dispositivos
     client=models.ForeignKey(Client, on_delete=models.CASCADE)
-    current_company=models.ForeignKey(Company, on_delete=models.SET_Null, null=True, blank=True)
+    current_company=models.ForeignKey(Company, on_delete=models.SET_NULL, null=True, blank=True)
 
     #Variáveis do dispositivo
     expected_offer=models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True) #O cliente pode opcionalmente colocar um valor de oferta esperado de até R$9.999,99.
