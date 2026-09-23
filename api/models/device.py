@@ -5,7 +5,6 @@ from api.models.company import Company
 class Device(models.Model):
     device_model = models.CharField(max_length=100)
     device_description = models.CharField(max_length=255)
-    offered_value = models.DecimalField(max_digits=10, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
 
     #Achei no site do ReciclaSampa categorias de descarte de lixo eletrônico, acho que fica melhor do que ter que fazer o usuário inventar uma categoria da cabeça dele
@@ -27,6 +26,9 @@ class Device(models.Model):
         OFFERED="Ofertado"
         ACCEPTED="Aceito"
         REFUSED="Recusado"
+
+    #O cliente pode colocar um valor de oferta esperado de até R$9.999,99
+    expected_offer=models.DecimalField(max_digits=6, decimal_places=2)
 
     #Isso aqui faz a relação 1:N de clientes e dispositivos (um cliente pode querer ofertar vários dispositivos)
     client=models.ForeignKey(Client, on_delete=models.CASCADE)
