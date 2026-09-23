@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from api.models.client import Client
 from api.models.company import Company
 
@@ -31,9 +32,9 @@ class Device(models.Model):
     #Variáveis do dispositivo
     expected_offer=models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True) #O cliente pode opcionalmente colocar um valor de oferta esperado de até R$9.999,99.
     offered_value=models.DecimalField(max_digits=6, decimal_places=2, null=True, blank=True)  #A empresa faz uma oferta de até R$9.999,99.
-    device_category=models.CharField(max_lenght=5,choices=Category.choices)
-    device_condition=models.CharField(max_lenght=5,choices=Condition.choices)
-    device_status=models.CharField(max_lenght=10,choices=Status.choices,default=Category.IN_ANALISYS)
+    device_category=models.CharField(max_length=5,choices=Category.choices)
+    device_condition=models.CharField(max_length=5,choices=Condition.choices)
+    device_status=models.CharField(max_length=10,choices=Status.choices,default=Category.IN_ANALISYS)
     device_model=models.CharField(max_length=100)
     device_description=models.CharField(max_length=255)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -42,5 +43,16 @@ class Device(models.Model):
     class Meta:
         db_table = "device"
 
+    #Bloqueios de alteração
+    #Sobreescrevendo a função save para não deixá-la ser aplicada em device_condition e offered_value
+    def save(self, *args, **kwargs):
+        if self.pk:
+            update=Device.objects.get(pk=self.pk)
+            if self.device_condition != update.device_condition:
+                raise ValidationError("A condição do dispositivo não pode ser alterada!")
+            if self.offered_value is not None and update.offered_value:
+                raise ValidationError("A oferta não pode ser alterada depois de proposta!")
+            super().save(*args,**kwargs)
+    
     def __str__(self):
         return f"{self.device_category} - {self.device_model or 'sem modelo'}"
