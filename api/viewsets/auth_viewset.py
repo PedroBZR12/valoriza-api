@@ -4,6 +4,7 @@ from rest_framework.parsers import JSONParser, MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.permissions import AllowAny
 
 from api.auth.backends import authenticate_user
 from api.auth.tokens import generate_tokens
@@ -15,6 +16,7 @@ from api.serializers.driver_serializer import CreateDriverSerializer
 
 class AuthViewSet(viewsets.GenericViewSet):
     parser_classes = (JSONParser, MultiPartParser, FormParser,)
+    permission_classes = [AllowAny]
 
     serializers = {
         'login': LoginSerializer,
@@ -29,7 +31,8 @@ class AuthViewSet(viewsets.GenericViewSet):
         serializer = LoginSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return Response({'error': True, 'message': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {'error': True,  'message': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         identifier = serializer.validated_data['identifier']
         password = serializer.validated_data['password']
@@ -41,17 +44,21 @@ class AuthViewSet(viewsets.GenericViewSet):
 
         tokens = generate_tokens(user_data)
 
-        return Response({
-                    'error': False,
-                    'message': 'Login realizado com sucesso.',
-                    'access': tokens['access'],
-                    'refresh': tokens['refresh'],
-                    'user': {'id': user_data['user_id'], 'name': user_data['user_name'], 'type': user_data['user_type'],}
-                },status=status.HTTP_200_OK)
+        return Response(
+            {
+                'error': False,
+                'message': 'Login realizado com sucesso.',
+                'access': tokens['access'],
+                'refresh': tokens['refresh'],
+                'user': {
+                    'id': user_data['user_id'],
+                    'name': user_data['user_name'],
+                    'type': user_data['user_type'],
+                }
+            },  status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'], url_path='register')
     def register(self, request):
-        print("foi chamado")
         account_type = request.data.get('account_type')
 
         if not account_type:
