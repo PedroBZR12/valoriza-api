@@ -20,6 +20,7 @@ class Client(models.Model):
   clientEmail=models.CharField(max_length=127, unique=True)
   clientPasswordHash=models.CharField(max_length=255)
   clientAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+  money_rewarded=models.DecimalField(null=False, blank=False, default=0.00, decimal_places=2, max_digits=5)
   class Meta:
     db_table="client"
   def __str__(self):
