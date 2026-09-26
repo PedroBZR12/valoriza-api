@@ -72,10 +72,12 @@ class CreateClientSerializer(serializers.ModelSerializer):
             'client_cpf',
             'client_email',
             'client_password',
+            'money_rewarded'
             'client_account_created_at',
         )
         read_only_fields = (
             'id',
+            'money_rewarded'
             'client_account_created_at',
         )
 
