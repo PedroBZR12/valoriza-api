@@ -1,4 +1,4 @@
-from rest_framework_simplejwt.tokens import RefreshToken as _RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 def generate_tokens(user_data: dict) -> dict:
@@ -12,21 +12,19 @@ def generate_tokens(user_data: dict) -> dict:
             'user_name': str,
         }
     """
-    # simplejwt exige um objeto com pk; usamos um objeto simples
-    class _FakeUser:
-        pk = user_data['user_id']
+    refresh = RefreshToken()
 
-    refresh = _RefreshToken.for_user(_FakeUser())
+    refresh['user_id'] = user_data['user_id']
+    refresh['user_type'] = user_data['user_type']
+    refresh['user_name'] = user_data['user_name']
 
-    # Claims extras no token
-    for key, value in user_data.items():
-        refresh[key] = value
-        refresh.access_token[key] = value
-    refresh.access_token['user_type'] = user_data['user_type']
-    refresh.access_token['user_id'] = user_data['user_id']
-    refresh.access_token['user_name'] = user_data['user_name']
+    access = refresh.access_token
+
+    access['user_id'] = user_data['user_id']
+    access['user_type'] = user_data['user_type']
+    access['user_name'] = user_data['user_name']
 
     return {
-        'access': str(refresh.access_token),
+        'access': str(access),
         'refresh': str(refresh),
     }
