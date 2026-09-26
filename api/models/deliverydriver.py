@@ -14,13 +14,13 @@ from django.db import models
 
 #Tabela "Motorista"
 class Driver(models.Model):
-  driverName=models.CharField(max_length=127)
-  driverCPF=models.CharField(max_length=11, unique=True)
-  driverCNH=models.CharField(max_length=9, unique=True)
-  driverEmail=models.CharField(max_length=127, unique=True)
-  driverPasswordHash=models.CharField(max_length=255)
-  driverAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+  driver_name=models.CharField(max_length=127)
+  driver_cpf=models.CharField(max_length=11, unique=True)
+  driver_cnh=models.CharField(max_length=9, unique=True)
+  driver_email=models.CharField(max_length=127, unique=True)
+  driver_password_hash=models.CharField(max_length=255)
+  driver_account_created_at=models.DateTimeField(auto_now_add=True)
   class Meta:
     db_table="driver"
   def __str__(self):
-    return self.driverName
+    return self.driver_name

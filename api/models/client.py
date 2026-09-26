@@ -14,14 +14,14 @@ from django.db import models
 
 #Tabela "Cliente"
 class Client(models.Model):
-  clientName=models.CharField(max_length=127)
-  clientAdress=models.CharField(max_length=255)
-  clientCPF=models.CharField(max_length=11, unique=True)
-  clientEmail=models.CharField(max_length=127, unique=True)
-  clientPasswordHash=models.CharField(max_length=255)
-  clientAccountCreatedAt=models.DateTimeField(auto_now_add=True)
+  client_name=models.CharField(max_length=127)
+  client_adress=models.CharField(max_length=255)
+  client_cpf=models.CharField(max_length=11, unique=True)
+  client_email=models.CharField(max_length=127, unique=True)
+  client_password=models.CharField(max_length=255)
+  client_account_created_at=models.DateTimeField(auto_now_add=True)
   money_rewarded=models.DecimalField(null=False, blank=False, default=0.00, decimal_places=2, max_digits=5)
   class Meta:
     db_table="client"
   def __str__(self):
-    return self.clientName
+    return self.client_name
