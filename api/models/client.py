@@ -18,7 +18,7 @@ class Client(models.Model):
   client_adress=models.CharField(max_length=255)
   client_cpf=models.CharField(max_length=11, unique=True)
   client_email=models.CharField(max_length=127, unique=True)
-  client_password_hash=models.CharField(max_length=255)
+  client_password=models.CharField(max_length=255)
   client_account_created_at=models.DateTimeField(auto_now_add=True)
   money_rewarded=models.DecimalField(null=False, blank=False, default=0.00, decimal_places=2, max_digits=5)
   class Meta:
