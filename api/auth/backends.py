@@ -29,31 +29,31 @@ def authenticate_user(identifier: str, password: str) -> dict | None:
     # ── Client ───────────────────────────────────────────────────────────────
     client = None
     if by_email:
-        client = Client.objects.filter(clientEmail__iexact=identifier).first()
+        client = Client.objects.filter(client_email__iexact=identifier).first()
     elif len(digits) == 11:
-        client = Client.objects.filter(clientCPF=digits).first()
+        client = Client.objects.filter(client_cpf=digits).first()
 
-    if client and check_password(password, client.clientPasswordHash):
-        return {'user_type': 'client', 'user_id': client.id, 'user_name': client.clientName}
+    if client and check_password(password, client.client_password_hash):
+        return {'user_type': 'client', 'user_id': client.id, 'user_name': client.client_name}
 
     # ── Company ───────────────────────────────────────────────────────────────
     company = None
     if by_email:
-        company = Company.objects.filter(companyEmail__iexact=identifier).first()
+        company = Company.objects.filter(company_email__iexact=identifier).first()
     elif len(digits) == 14:
-        company = Company.objects.filter(companyCNPJ=digits).first()
+        company = Company.objects.filter(company_cnpj=digits).first()
 
-    if company and check_password(password, company.companyPasswordHash):
-        return {'user_type': 'company', 'user_id': company.id, 'user_name': company.companyName}
+    if company and check_password(password, company.company_password_hash):
+        return {'user_type': 'company', 'user_id': company.id, 'user_name': company.company_name}
 
     # ── Driver ────────────────────────────────────────────────────────────────
     driver = None
     if by_email:
-        driver = Driver.objects.filter(driverEmail__iexact=identifier).first()
+        driver = Driver.objects.filter(driver_email__iexact=identifier).first()
     elif len(digits) == 11:
-        driver = Driver.objects.filter(driverCPF=digits).first()
+        driver = Driver.objects.filter(driver_cpf=digits).first()
 
-    if driver and check_password(password, driver.driverPasswordHash):
-        return {'user_type': 'driver', 'user_id': driver.id, 'user_name': driver.driverName}
+    if driver and check_password(password, driver.driver_password_hash):
+        return {'user_type': 'driver', 'user_id': driver.id, 'user_name': driver.driver_name}
 
     return None

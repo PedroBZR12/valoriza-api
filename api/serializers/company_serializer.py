@@ -9,20 +9,20 @@ class ListCompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = (
             'id',
-            'companyName',
-            'companyAdress',
-            'companyCNPJ',
-            'companyEmail',
-            'companyAccountCreatedAt',
+            'company_name',
+            'company_adress',
+            'company_cnpj',
+            'company_email',
+            'company_account_created_at',
         )
         read_only_fields = (
             'id',
-            'companyAccountCreatedAt',
+            'company_account_created_at',
         )
 
 
 class CompanySerializer(serializers.ModelSerializer):
-    companyPassword = serializers.CharField(
+    company_password = serializers.CharField(
         write_only=True,
         required=False
     )
@@ -31,26 +31,26 @@ class CompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = (
             'id',
-            'companyName',
-            'companyAdress',
-            'companyCNPJ',
-            'companyEmail',
-            'companyPassword',
-            'companyAccountCreatedAt',
+            'company_name',
+            'company_adress',
+            'company_cnpj',
+            'company_email',
+            'company_password',
+            'company_account_created_at',
         )
         read_only_fields = (
             'id',
-            'companyAccountCreatedAt',
+            'company_account_created_at',
         )
 
     def update(self, instance, validated_data):
-        password = validated_data.pop('companyPassword', None)
+        password = validated_data.pop('company_password', None)
 
         for attr, value in validated_data.items():
             setattr(instance, attr, value)
 
         if password:
-            instance.companyPasswordHash = make_password(password)
+            instance.company_password_hash = make_password(password)
 
         instance.save()
 
@@ -58,7 +58,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class CreateCompanySerializer(serializers.ModelSerializer):
-    companyPassword = serializers.CharField(
+    company_password = serializers.CharField(
         write_only=True,
         required=True
     )
@@ -67,21 +67,21 @@ class CreateCompanySerializer(serializers.ModelSerializer):
         model = Company
         fields = (
             'id',
-            'companyName',
-            'companyAdress',
-            'companyCNPJ',
-            'companyEmail',
-            'companyPassword',
-            'companyAccountCreatedAt',
+            'company_name',
+            'company_adress',
+            'company_cnpj',
+            'company_email',
+            'company_password',
+            'company_account_created_at',
         )
         read_only_fields = (
             'id',
-            'companyAccountCreatedAt',
+            'company_account_created_at',
         )
 
     def create(self, validated_data):
         password = validated_data.pop('companyPassword')
 
-        validated_data['companyPasswordHash'] = make_password(password)
+        validated_data['company_password_hash'] = make_password(password)
 
         return Company.objects.create(**validated_data)
