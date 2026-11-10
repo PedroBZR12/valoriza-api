@@ -866,3 +866,25 @@ Alterações nos padrões da API devem ser comunicadas ao restante da equipe e a
 > **Se um novo endpoint não se encaixar naturalmente nos padrões deste documento, a estrutura deve ser discutida antes da implementação.**
 
 A documentação deve evoluir junto com o projeto e permanecer como a fonte de referência para o desenvolvimento da API.
+
+## Endpoints implementados
+
+Os recursos REST ficam sob `/api/v1`. Recursos CRUD exigem `Authorization: Bearer <access-token>`. Login e cadastro são públicos; refresh e logout exigem um refresh token válido. Cada recurso aceita `GET` na coleção, `POST` na coleção e `GET`, `PUT`, `PATCH` e `DELETE` no identificador.
+
+| Recurso | Modelo |
+|---|---|
+| `/clients` | Cliente |
+| `/companies` | Empresa |
+| `/drivers` | Motorista |
+| `/devices` | Dispositivo |
+| `/device-images` | Imagem de dispositivo |
+| `/return-requests` | Requisição de devolução |
+| `/rides` | Corrida |
+| `/request-status-history` | Histórico de status da requisição |
+| `/ride-status-history` | Histórico de status da corrida |
+
+Autenticação pública: `POST /api/v1/auth/login`, `POST /api/v1/auth/register` e `POST /api/v1/auth/refresh`. Logout: `POST /api/v1/auth/logout` com o refresh token.
+
+Listas aceitam `page` e `limit` (máximo 100) e retornam `data` e `pagination`. Recursos com filtros também aceitam `ordering`; prefixe o campo com `-` para ordem decrescente. Senhas são write-only e armazenadas com hash. O acesso a contas é restrito ao perfil correspondente e os demais recursos verificam participação do cliente, empresa ou motorista.
+
+O bate-papo é integrado pelo Firebase; `chat_id` é apenas uma referência nos registros de logística. Pagamentos e escrow não fazem parte do escopo desta API.
