@@ -18,7 +18,7 @@ class RequestStatus(models.TextChoices):
 
 #Classe da Requisição
 class ReturnRequest(models.Model):
-    client = models.ForeignKey(Client, on_delete=models.PROTEC, related_name="return_requests")
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, related_name="return_requests")
     company = models.ForeignKey(Company, on_delete=models.PROTECT, related_name="return_requests")
     driver = models.ForeignKey(Driver, on_delete=models.SET_NULL, null=True, blank=True, related_name="return_requests")
     device = models.OneToOneField(Device, on_delete=models.PROTECT, related_name="return_request")
@@ -63,6 +63,10 @@ class Ride(models.Model):
 class RequestStatusHistory(models.Model):
     return_request = models.ForeignKey(ReturnRequest, on_delete=models.CASCADE, related_name="status_history")
     status = models.CharField(max_length=25, choices=RequestStatus.choices)
+    changed_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["changed_at"]
 #Classe do Histórico de status da Corrida
 class RideStatusHistory(models.Model):
     ride = models.ForeignKey(Ride, on_delete=models.CASCADE, related_name="status_history")

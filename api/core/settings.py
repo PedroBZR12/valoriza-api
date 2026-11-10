@@ -141,7 +141,11 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.OrderingFilter',
     ),
+    'DEFAULT_PAGINATION_CLASS': 'api.pagination.ApiPagination',
+    'PAGE_SIZE': 20,
+    'EXCEPTION_HANDLER': 'api.exceptions.api_exception_handler',
 }
 
 SIMPLE_JWT = {

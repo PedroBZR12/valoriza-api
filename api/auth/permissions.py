@@ -120,3 +120,35 @@ class DriverViewPermission(BasePermission):
         if user_type == 'driver':
             return obj.id == user_id
         return user_type in ('client', 'company')
+
+
+class AccountResourcePermission(BasePermission):
+    """Authenticated profile access; writes are limited to the matching account."""
+    def has_permission(self, request, view):
+        payload = get_payload(request)
+        if not payload:
+            return False
+        return request.method in ('GET', 'HEAD', 'OPTIONS') or payload.get('user_type') in (
+            getattr(view, 'account_role', None), 'admin'
+        )
+
+    def has_object_permission(self, request, view, obj):
+        payload = get_payload(request) or {}
+        if payload.get('user_type') == 'admin':
+            return True
+        if request.method in ('GET', 'HEAD', 'OPTIONS'):
+            return True
+        return payload.get('user_type') == view.account_role and obj.pk == payload.get('user_id')
+
+
+class TokenUserPermission(BasePermission):
+    """Require one of the custom JWT account types for non-account resources."""
+    def has_permission(self, request, view):
+        payload = get_payload(request)
+        if not payload or payload.get('user_type') not in ('client', 'company', 'driver', 'admin'):
+            return False
+        return not hasattr(view, 'can_perform_action') or view.can_perform_action(request, payload)
+
+    def has_object_permission(self, request, view, obj):
+        payload = get_payload(request) or {}
+        return view.user_can_access_object(request, obj, payload)

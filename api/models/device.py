@@ -47,12 +47,13 @@ class Device(models.Model):
     #Sobreescrevendo a função save para não deixá-la ser aplicada em device_condition e offered_value
     def save(self, *args, **kwargs):
         if self.pk:
-            update=Device.objects.get(pk=self.pk)
-            if self.device_condition != update.device_condition:
-                raise ValidationError("A condição do dispositivo não pode ser alterada!")
-            if self.offered_value is not None and update.offered_value:
-                raise ValidationError("A oferta não pode ser alterada depois de proposta!")
-            super().save(*args,**kwargs)
+            previous = Device.objects.filter(pk=self.pk).first()
+            if previous:
+                if self.device_condition != previous.device_condition:
+                    raise ValidationError("A condição do dispositivo não pode ser alterada!")
+                if previous.offered_value is not None and self.offered_value != previous.offered_value:
+                    raise ValidationError("A oferta não pode ser alterada depois de proposta!")
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return f"{self.device_category} - {self.device_model or 'sem modelo'}"

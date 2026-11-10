@@ -1,16 +1,19 @@
-from rest_framework import status, viewsets
-from api.serializers.client_serializer import CreateClientSerializer, ClientSerializer
-from rest_framework.response import Response
+from api.auth.permissions import AccountResourcePermission
+from api.models import Client
+from api.serializers.client_serializer import ClientSerializer, CreateClientSerializer
+from api.viewsets.base import ApiModelViewSet
 
-class ClientViewSet(viewsets.ModelViewSet):
 
-    def create(self, request, *args, **kwargs):
-        serializer = CreateClientSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
+class ClientViewSet(ApiModelViewSet):
+    serializer_class = ClientSerializer
+    permission_classes = (AccountResourcePermission,)
+    account_role = "client"
 
-        client = serializer.save()
+    def get_queryset(self):
+        payload = self.request.auth.payload if self.request.auth else {}
+        if payload.get("user_type") == "admin":
+            return Client.objects.all().order_by("id")
+        return Client.objects.filter(pk=payload.get("user_id"))
 
-        return Response(
-            ClientSerializer(client).data,
-            status=status.HTTP_201_CREATED
-        )
+    def get_serializer_class(self):
+        return CreateClientSerializer if self.action == "create" else ClientSerializer
