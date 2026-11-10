@@ -8,6 +8,7 @@ from api.viewsets.company_viewset import CompanyViewSet
 from api.viewsets.device_image_viewset import DeviceImageViewSet
 from api.viewsets.device_viewset import DeviceViewSet
 from api.viewsets.driver_viewset import DriverViewSet
+from api.viewsets.messages_viewset import MessageViewSet
 from api.viewsets.logistics_viewsets import (
     ReturnRequestViewSet, RideViewSet,
     RequestStatusHistoryViewSet, RideStatusHistoryViewSet,
@@ -19,6 +20,7 @@ router.register("auth", AuthViewSet, basename="auth")
 router.register("clients", ClientViewSet, basename="client")
 router.register("companies", CompanyViewSet, basename="company")
 router.register("drivers", DriverViewSet, basename="driver")
+router.register("chats", MessageViewSet, basename="chat")
 router.register("devices", DeviceViewSet, basename="device")
 router.register("device-images", DeviceImageViewSet, basename="device-image")
 router.register("return-requests", ReturnRequestViewSet, basename="return-request")

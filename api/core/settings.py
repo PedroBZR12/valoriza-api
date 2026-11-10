@@ -156,3 +156,11 @@ SIMPLE_JWT = {
     'AUTH_HEADER_TYPES':        ('Bearer',),
     'UPDATE_LAST_LOGIN':        False,
 }
+
+
+FIREBASE_CREDENTIALS = os.getenv('FIREBASE_CREDENTIALS') or os.path.join(
+        BASE_DIR,
+        'webservices',
+        'firebaseKey',
+        'serviceAccountKey.json'
+    )
