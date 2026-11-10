@@ -17,6 +17,38 @@ def get_payload(request) -> dict | None:
         return None
 
 
+class ChatPermission(BasePermission):
+    message = 'Você não tem permissão para acessar esta conversa.'
+
+    def has_permission(self, request, view):
+        payload = get_payload(request)
+
+        if not payload:
+            return False
+
+        return payload.get('user_type') in (
+            'client',
+            'company',
+            'admin'
+        )
+
+    def has_object_permission(self, request, view, obj):
+        payload = get_payload(request) or {}
+
+        user_type = payload.get('user_type')
+        user_id = payload.get('user_id')
+
+        if user_type == 'admin':
+            return True
+
+        if user_type == 'client':
+            return str(obj.get('clientId')) == f'client_{user_id}'
+
+        if user_type == 'company':
+            return str(obj.get('companyId')) == f'company_{user_id}'
+
+        return False
+
 class IsAuthenticatedCustom(BasePermission):
     message = 'Autenticação necessária.'
 

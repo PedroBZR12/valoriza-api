@@ -34,3 +34,7 @@ postgres_data/
 # Sistema operacional
 .DS_Store
 Thumbs.db
+
+# Firebase
+firebaseKey/
+**/serviceAccountKey.json
