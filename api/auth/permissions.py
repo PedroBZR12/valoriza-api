@@ -155,10 +155,14 @@ class DriverViewPermission(BasePermission):
 
 
 class AccountResourcePermission(BasePermission):
-    """Authenticated profile access; writes are limited to the matching account."""
+    """Limit profile access to the authenticated account role and owner."""
     def has_permission(self, request, view):
         payload = get_payload(request)
         if not payload:
+            return False
+        if payload.get('user_type') == 'admin':
+            return True
+        if payload.get('user_type') != getattr(view, 'account_role', None):
             return False
         return request.method in ('GET', 'HEAD', 'OPTIONS') or payload.get('user_type') in (
             getattr(view, 'account_role', None), 'admin'

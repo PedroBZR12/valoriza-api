@@ -36,6 +36,7 @@ class Device(models.Model):
     device_condition=models.CharField(max_length=5,choices=Condition.choices)
     device_status=models.CharField(max_length=10,choices=Status.choices,default=Status.IN_ANALISYS)
     device_model=models.CharField(max_length=100)
+    device_image=models.URLField(max_length=500, null=True, blank=True)
     device_description=models.CharField(max_length=255)
     created_at=models.DateTimeField(auto_now_add=True)
     offered_at=models.DateTimeField(null=True,blank=True)

@@ -3,10 +3,10 @@ services:
     build: .
     working_dir: /app
     command: python manage.py runserver 0.0.0.0:4323
-    volumes:
-      - .:/app
     ports:
       - "4323:4323"
+    volumes:
+      - device_media:/app/api/media
     env_file:
       - .env
     environment:
@@ -42,3 +42,4 @@ networks:
 
 volumes:
   postgres_data:
+  device_media:
