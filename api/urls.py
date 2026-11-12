@@ -2,6 +2,7 @@ from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 
+from api.serializers.auth_serializer import AccountTokenRefreshSerializer
 from api.viewsets.auth_viewset import AuthViewSet
 from api.viewsets.client_viewset import ClientViewSet
 from api.viewsets.company_viewset import CompanyViewSet
@@ -34,7 +35,15 @@ urlpatterns = [
     path("auth/login", AuthViewSet.as_view({"post": "login"}), name="auth-login-no-slash"),
     path("auth/register", AuthViewSet.as_view({"post": "register"}), name="auth-register-no-slash"),
     path("auth/logout", AuthViewSet.as_view({"post": "logout"}), name="auth-logout-no-slash"),
-    path("auth/refresh", TokenRefreshView.as_view(), name="token-refresh-no-slash"),
+    path(
+        "auth/refresh",
+        TokenRefreshView.as_view(serializer_class=AccountTokenRefreshSerializer),
+        name="token-refresh-no-slash",
+    ),
     path("", include(router.urls)),
-    path("auth/refresh/", TokenRefreshView.as_view(), name="token-refresh"),
+    path(
+        "auth/refresh/",
+        TokenRefreshView.as_view(serializer_class=AccountTokenRefreshSerializer),
+        name="token-refresh",
+    ),
 ]

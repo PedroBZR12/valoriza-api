@@ -888,3 +888,7 @@ Autenticação pública: `POST /api/v1/auth/login`, `POST /api/v1/auth/register`
 Listas aceitam `page` e `limit` (máximo 100) e retornam `data` e `pagination`. Recursos com filtros também aceitam `ordering`; prefixe o campo com `-` para ordem decrescente. Senhas são write-only e armazenadas com hash. O acesso a contas é restrito ao perfil correspondente e os demais recursos verificam participação do cliente, empresa ou motorista.
 
 O bate-papo é integrado pelo Firebase; `chat_id` é apenas uma referência nos registros de logística. Pagamentos e escrow não fazem parte do escopo desta API.
+
+### Upload de imagem do dispositivo
+
+`POST /api/v1/devices/` recebe `multipart/form-data` e exige o arquivo `device_image_file` (JPEG, PNG, WebP ou GIF, até 5 MB). A API salva o arquivo em `MEDIA_ROOT` e retorna sua URL absoluta no campo `device_image`. No Docker Compose, os arquivos ficam no volume persistente `device_media`; com `DEBUG=1`, a API também serve os arquivos sob `/media/`. Em produção, configure o servidor web para servir esse mesmo diretório de mídia.

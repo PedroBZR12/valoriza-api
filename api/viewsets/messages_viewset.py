@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTStatelessUserAuthentication
 from firebase_admin.exceptions import FirebaseError
 from google.api_core.exceptions import GoogleAPICallError
+from django.db.models import Q
 
 from api.auth.permissions import TokenUserPermission, get_payload
-from api.models import Client, Company
+from api.models import Client, Company, Device
 from api.serializers.messages_serializer import (
     ChatListQuerySerializer,
     CreateChatSerializer,
@@ -123,6 +124,22 @@ class MessageViewSet(ApiModelViewSet):
                 "PARTICIPANT_NOT_FOUND",
                 "Cliente ou empresa não encontrado.",
                 status.HTTP_404_NOT_FOUND,
+            )
+        devices = Device.objects.filter(client_id=client_id)
+        if user_type == "company":
+            has_related_device = devices.filter(
+                Q(current_company_id=company_id) | Q(current_company__isnull=True)
+            ).exists()
+        else:
+            has_related_device = devices.filter(
+                current_company_id=company_id,
+                offered_value__isnull=False,
+            ).exists()
+        if not has_related_device:
+            return api_error(
+                "NO_CHAT_CONTEXT",
+                "A conversa precisa estar relacionada a um equipamento disponível ou ofertado.",
+                status.HTTP_403_FORBIDDEN,
             )
 
         try:

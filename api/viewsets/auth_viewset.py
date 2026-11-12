@@ -17,6 +17,7 @@ from api.serializers.driver_serializer import CreateDriverSerializer
 
 class AuthViewSet(viewsets.GenericViewSet):
     parser_classes = (JSONParser, MultiPartParser, FormParser,)
+    authentication_classes = ()
     permission_classes = [AllowAny]
 
     serializers = {
